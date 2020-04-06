@@ -18,14 +18,11 @@ pub fn find_multiplier(table_header: Vec<String>) -> u32 {
     .cloned()
     .collect();
 
-    // dollar search terms for finding within the header
-    let dollar_search = Regex::new(r"DOLLAR|USD|\$").unwrap();
-
     // find the line within the header that contains the dollar term
     let mut line_index = None;
     for (x, line) in table_header.iter().enumerate() {
         let line_upper = line.to_uppercase();
-        if dollar_search.is_match(&line_upper) {
+        if line_upper.contains("DOLLAR") || line_upper.contains("USD") || line_upper.contains("$") {
             line_index = Some(x);
             break;
         }
