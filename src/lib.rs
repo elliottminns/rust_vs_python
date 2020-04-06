@@ -1,9 +1,15 @@
 extern crate regex;
 
+use lazy_static::lazy_static;
+
 use pyo3::prelude::*;
 use pyo3::wrap_pyfunction;
 use regex::Regex;
 use std::collections::HashMap;
+
+lazy_static! {
+    static ref dollar_search: Regex = Regex::new(r"DOLLAR|USD|\$").unwrap();
+}
 
 /// Finds the multiplier within a couple of lines that dollar is mentioned
 #[pyfunction]
@@ -17,9 +23,6 @@ pub fn find_multiplier(table_header: Vec<String>) -> u32 {
     .iter()
     .cloned()
     .collect();
-
-    // dollar search terms for finding within the header
-    let dollar_search = Regex::new(r"DOLLAR|USD|\$").unwrap();
 
     // find the line within the header that contains the dollar term
     let mut line_index = None;
